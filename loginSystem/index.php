@@ -1,3 +1,12 @@
+<?php
+session_start();
+
+if (isset($_SESSION['login']) && $_SESSION['login']==true )
+{
+    header("Location: loginSite.php");
+    exit();
+}
+?>
 <!DOCTYPE html>
 <html lang="pl">
 <head>
@@ -14,6 +23,11 @@ Password: <br>
     <br><br>
         <input type="submit" name="login-submit">
 </form>
+<?php
+if (isset($_SESSION['error']))
+    echo $_SESSION['error'];
+?>
+
 </body>
 
 </html>
