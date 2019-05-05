@@ -15,6 +15,8 @@ if (isset($_SESSION['login']) && $_SESSION['login']==true )
     <title>Login System</title>
 </head>
 <body>
+<a href="signup.php">Sign Up!</a>
+
 <form action="login.php" method="post">
 Login: <br>
     <input type="text" name="login" placeholder="Login"> <br>
