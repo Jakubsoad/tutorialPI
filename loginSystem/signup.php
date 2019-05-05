@@ -1,5 +1,6 @@
 <?php
 session_start();
+
 if (isset($_POST['email']))
 {
     $validation=true;
@@ -31,6 +32,72 @@ if (isset($_POST['email']))
     {
         $validation=false;
         $_SESSION['ePwd']="Passwords do not match!";
+    }
+
+    $pwdHash = password_hash($pwd, PASSWORD_DEFAULT);
+
+    if (!isset($_POST['terms']))
+    {
+        $validation=false;
+        $_SESSION['eTerms']="You must agree terms and rules!";
+    }
+
+    $secretKey="6Lfj1qEUAAAAACBSRYXCSi2TaVppGk-YTzjPZ81U";
+
+    $captcha = file_get_contents(
+    'https://www.google.com/recaptcha/api/siteverify?secret='.$secretKey.'&response='.$_POST['g-recaptcha-response']);
+
+    $response=json_decode($captcha);
+
+    if ($response->success==false)
+    {
+        $validation=false;
+        $_SESSION['eBot']="Click reCaptcha checkbox!";
+    }
+
+    require_once "dbConnect.php";
+
+    mysqli_report(MYSQLI_REPORT_STRICT);
+
+    try
+    {
+        $conn = new mysqli($host, $dbUser, $dbPwd, $dbName);
+        if ($conn->connect_errno!=0)
+        {
+            throw new Exception(mysqli_connect_errno());
+        }
+        else
+        {
+            $result = $conn->query("SELECT id FROM users WHERE email='$email'");
+
+            if (!$result) throw new Exception($conn->error);
+
+            $emails=$result->num_rows;
+            if ($emails>0)
+            {
+                $validation=false;
+                $_SESSION['eEmail']="There is account on this e-mail address!";
+            }
+
+            $result = $conn->query("SELECT id FROM users WHERE email='$nick'");
+
+            if (!$result) throw new Exception($conn->error);
+
+            $nicks=$result->num_rows;
+            if ($nicks>0)
+            {
+                $validation=false;
+                $_SESSION['eNick']="Nick is taken!";
+            }
+
+            $conn->close();
+
+        }
+    }
+    catch (Exception $e)
+    {
+        echo '<span style="color:red">Server error! Please try later</span>';
+        //echo "<br>".$e;
     }
     if ($validation==true)
     {
@@ -78,12 +145,31 @@ if (isset($_POST['email']))
     ?>
     <br>
     Password2: <input type="password" name="pwd2"><br><br>
-    <label><input type="checkbox" name="terms">I agree to the terms and rules!</label><br><br>
-    <form action="?" method="POST">
-        <div class="g-recaptcha" data-sitekey="6LcNx6EUAAAAAMcC5bF_PlCIMSowkhWqrBZebJbO"></div>
-        <br/>
-        <input type="submit" value="signup">
-    </form>
+
+    <label>
+        <input type="checkbox" name="terms">I agree to the terms and rules!
+    </label>
+
+    <?php
+    if (isset($_SESSION['eTerms']))
+        echo '<div class="error">'.$_SESSION['eTerms']."</div>";
+    unset($_SESSION['eTerms']);
+    ?>
+
+
+    <br><br>
+
+    <div class="g-recaptcha" data-sitekey="6Lfj1qEUAAAAAHpmW2m8lI84rpX8rksrTZX36Cxt"></div>
+    <br/>
+    <?php
+    if (isset($_SESSION['eBot']))
+        echo '<div class="error">'.$_SESSION['eBot']."</div>";
+    unset($_SESSION['eBot']);
+    ?>
+
+
+    <input type="submit" value="signup">
+
 </form>
 
 </body>
