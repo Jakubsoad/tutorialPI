@@ -10,6 +10,19 @@ else
 {
     unset($_SESSION['successful']);
 }
+
+if (isset($_SESSION['rNick'])) unset($_SESSION['rNick']);
+if (isset($_SESSION['rEmail'])) unset($_SESSION['rEmail']);
+if (isset($_SESSION['rPwd'])) unset($_SESSION['rPwd']);
+if (isset($_SESSION['rPwd2'])) unset($_SESSION['rPwd2']);
+if (isset($_SESSION['rTerms'])) unset($_SESSION['rTerms']);
+
+if (isset($_SESSION['eNick'])) unset($_SESSION['eNick']);
+if (isset($_SESSION['eEmail'])) unset($_SESSION['eEmail']);
+if (isset($_SESSION['ePwd'])) unset($_SESSION['ePwd']);
+if (isset($_SESSION['eTerms'])) unset($_SESSION['eTerms']);
+
+
 ?>
 <!DOCTYPE html>
 <html lang="pl">

@@ -55,6 +55,14 @@ if (isset($_POST['email']))
         $_SESSION['eBot']="Click reCaptcha checkbox!";
     }
 
+    $_SESSION['rNick']=$nick;
+    $_SESSION['rMail']=$email;
+    $_SESSION['rPwd']=$pwd;
+    $_SESSION['rPwd2']=$pwd2;
+    if (isset($_POST['terms']))
+        $_SESSION['rTerms']=true;
+
+
     require_once "dbConnect.php";
 
     mysqli_report(MYSQLI_REPORT_STRICT);
@@ -133,29 +141,59 @@ if (isset($_POST['email']))
 <body>
 
 <form method="post">
-    Nickname: <input type="text" name="nick"><br>
+    Nickname: <input type="text" value="<?php
+    if (isset($_SESSION['rNick']))
+    {
+        echo $_SESSION['rNick'];
+        unset($_SESSION['rNick']);
+    }
+?>" name="nick"><br>
     <?php
     if (isset($_SESSION['eNick']))
         echo '<div class="error">'.$_SESSION['eNick']."</div>";
         unset($_SESSION['eNick']);
     ?><br>
-    Email: <input type="text" name="email"><br>
+    Email: <input type="text" value="<?php
+    if (isset($_SESSION['rMail']))
+    {
+        echo $_SESSION['rMail'];
+        unset($_SESSION['rMail']);
+    }
+    ?>" name="email"><br>
     <?php
     if (isset($_SESSION['eEmail']))
         echo '<div class="error">'.$_SESSION['eEmail']."</div>";
     unset($_SESSION['eEmail']);
     ?>
     <br>
-    Password: <input type="password" name="pwd"><br>    <?php
+    Password: <input type="password" value="<?php
+    if (isset($_SESSION['rPwd']))
+    {
+        echo $_SESSION['rPwd'];
+        unset($_SESSION['rPwd']);
+    }
+    ?>" name="pwd"><br>    <?php
     if (isset($_SESSION['ePwd']))
         echo '<div class="error">'.$_SESSION['ePwd']."</div>";
     unset($_SESSION['ePwd']);
     ?>
     <br>
-    Password2: <input type="password" name="pwd2"><br><br>
+    Password2: <input type="password" value="<?php
+    if (isset($_SESSION['rPwd2']))
+    {
+        echo $_SESSION['rPwd2'];
+        unset($_SESSION['rPwd2']);
+    }
+    ?>" name="pwd2"><br><br>
 
     <label>
-        <input type="checkbox" name="terms">I agree to the terms and rules!
+        <input type="checkbox" name="terms" <?php
+        if (isset($_SESSION['rTerms']))
+        {
+            echo "checked";
+            unset($_SESSION['rTerms']);
+        }
+        ?>>I agree to the terms and rules!
     </label>
 
     <?php
