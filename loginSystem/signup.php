@@ -41,7 +41,7 @@ if (isset($_POST['email']))
         $validation=false;
         $_SESSION['eTerms']="You must agree terms and rules!";
     }
-/*
+
     $secretKey="6Lfj1qEUAAAAACBSRYXCSi2TaVppGk-YTzjPZ81U";
 
     $captcha = file_get_contents(
@@ -54,7 +54,7 @@ if (isset($_POST['email']))
         $validation=false;
         $_SESSION['eBot']="Click reCaptcha checkbox!";
     }
-*/
+
     require_once "dbConnect.php";
 
     mysqli_report(MYSQLI_REPORT_STRICT);
