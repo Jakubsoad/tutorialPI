@@ -41,7 +41,7 @@ if (isset($_POST['email']))
         $validation=false;
         $_SESSION['eTerms']="You must agree terms and rules!";
     }
-
+/*
     $secretKey="6Lfj1qEUAAAAACBSRYXCSi2TaVppGk-YTzjPZ81U";
 
     $captcha = file_get_contents(
@@ -54,7 +54,7 @@ if (isset($_POST['email']))
         $validation=false;
         $_SESSION['eBot']="Click reCaptcha checkbox!";
     }
-
+*/
     require_once "dbConnect.php";
 
     mysqli_report(MYSQLI_REPORT_STRICT);
@@ -68,7 +68,7 @@ if (isset($_POST['email']))
         }
         else
         {
-            $result = $conn->query("SELECT id FROM users WHERE email='$email'");
+            $result = $conn->query('SELECT id FROM users WHERE email="$email"');
 
             if (!$result) throw new Exception($conn->error);
 
@@ -76,10 +76,10 @@ if (isset($_POST['email']))
             if ($emails>0)
             {
                 $validation=false;
-                $_SESSION['eEmail']="There is account on this e-mail address!";
+                $_SESSION['eEmail']="There is an account on this e-mail address!";
             }
 
-            $result = $conn->query("SELECT id FROM users WHERE email='$nick'");
+            $result = $conn->query("SELECT id FROM users WHERE user='$nick'");
 
             if (!$result) throw new Exception($conn->error);
 
@@ -88,6 +88,18 @@ if (isset($_POST['email']))
             {
                 $validation=false;
                 $_SESSION['eNick']="Nick is taken!";
+            }
+
+            if ($validation==true) {
+                if ($conn->query("INSERT INTO users VALUES (NULL, '$nick', '$pwdHash', '$email')"))
+                {
+                    $_SESSION['successful']=true;
+                    header("Location: hello.php");
+                }
+                else
+                {
+                    throw new Exception($conn->error);
+                }
             }
 
             $conn->close();
@@ -99,11 +111,7 @@ if (isset($_POST['email']))
         echo '<span style="color:red">Server error! Please try later</span>';
         //echo "<br>".$e;
     }
-    if ($validation==true)
-    {
-        echo "Validation complete!";
-        exit();
-    }
+
 }
 ?>
 <!DOCTYPE html>
@@ -166,7 +174,6 @@ if (isset($_POST['email']))
         echo '<div class="error">'.$_SESSION['eBot']."</div>";
     unset($_SESSION['eBot']);
     ?>
-
 
     <input type="submit" value="signup">
 

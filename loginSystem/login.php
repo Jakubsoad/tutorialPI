@@ -22,7 +22,7 @@ else {
     $login=htmlentities($login, ENT_QUOTES, "UTF-8");
 
     $sql = "";
-    if ($result = @$conn->query(sprintf("SELECT * FROM users WHERE user='%s' AND password='%s'",
+    if ($result = @$conn->query(sprintf("SELECT * FROM users WHERE user='%s'",
         mysqli_real_escape_string($conn, $login))))
     {
         $users = $result->num_rows;
@@ -54,5 +54,4 @@ else {
     $conn->close();
 
 }
-
 
