@@ -1,6 +1,5 @@
 <?php
 session_start();
-
 ?>
 <!DOCTYPE html>
 <html lang="pl">
@@ -11,7 +10,6 @@ session_start();
 </head>
 <body>
 <h1>Newsletter</h1>
-
 <form method="post" action="save.php">
     <input type="text" name="email" placeholder="E-mail..."
         <?php if (isset($_SESSION['givenEmail'])) echo 'value="'.$_SESSION['givenEmail'].'"'?>>
@@ -24,8 +22,8 @@ session_start();
     ?>
     <br><br>
     <input type="submit" value="Submit!">
-
-
+    <br><br>
+    <a href="admin.php">You are admin? Click here!</a>
 </form>
 
 </body>

@@ -7,23 +7,18 @@ session_start();
 <head>
     <meta charset="UTF-8"/>
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
-    <title>Admin Panel</title>
+    <title>Admin Panel - login system</title>
 </head>
 <body>
-<h1>Newsletter</h1>
+<h1>Admin - login system</h1>
 
-<form method="post" action="save.php">
-    <input type="text" name="email" placeholder="E-mail..."
-        <?php if (isset($_SESSION['givenEmail'])) echo 'value="'.$_SESSION['givenEmail'].'"'?>>
+<form method="post" action="list.php">
+    <label>
+    <input type="text" name="login" placeholder="Login..."><br><br>
+    <input type="password" name="pwd" placeholder="Password..."><br><br>
+    <input type="submit" name="submit-login">
     <br><br>
-
-    <?php
-    if (isset($_SESSION['wrongEmail']))
-        echo $_SESSION['wrongEmail'];
-    unset($_SESSION['wrongEmail']);
-    ?>
-    <br><br>
-    <input type="submit" value="Submit!">
+    </label>
 
 
 </form>
