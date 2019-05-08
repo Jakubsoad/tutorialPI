@@ -1,7 +1,6 @@
 <?php
 session_start();
 
-require_once 'database.php';
 
 if (isset($_POST['email']))
 {
@@ -10,10 +9,13 @@ $email = filter_input(INPUT_POST, 'email', FILTER_VALIDATE_EMAIL);
     if (empty($email))
     {
         header("Location: index.php");
+        $_SESSION['givenEmail']=$_POST['email'];
         $_SESSION['wrongEmail'] = "Wrong E-mail adress";
     }
     else
     {
+        require_once 'database.php';
+
         $query = $db->prepare('INSERT INTO users VALUES (NULL, :email)');
         $query->bindValue(':email', $email, PDO::PARAM_STR);
         $query->execute();
