@@ -1,6 +1,13 @@
 <?php
 session_start();
 
+if (isset($_SESSION['loggedID']))
+{
+    header("Location: list.php");
+    exit();
+}
+
+
 ?>
 <!DOCTYPE html>
 <html lang="pl">
@@ -16,8 +23,16 @@ session_start();
     <label>
     <input type="text" name="login" placeholder="Login..."><br><br>
     <input type="password" name="pwd" placeholder="Password..."><br><br>
-    <input type="submit" name="submit-login">
-    <br><br>
+    <input type="submit" name="submit-login"><br><br>
+
+        <?php
+        if (isset($_SESSION['badAttempt']))
+        {
+            echo "<p>Wrong login or password!</p>";
+            unset($_SESSION['badAttempt']);
+
+        }
+        ?>
     </label>
 
 

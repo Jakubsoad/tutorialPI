@@ -2,7 +2,9 @@
 session_start();
 require_once 'database.php';
 
+
 if (!isset($_SESSION['loggedID'])) {
+
     if (isset($_POST['login'])) {
         $login = filter_input(INPUT_POST, 'login');
         $pwd = filter_input(INPUT_POST, 'pwd');
@@ -42,6 +44,28 @@ $users = $usersQuery->fetchAll();
 </head>
 <body>
 <h1>Admin panel</h1>
+
+<main>
+    <article>
+        <table>
+            <thead>
+            <tr><th colspan="2"><?=$usersQuery->rowCount()?> Records</th></tr>
+            <tr><th>ID</th><th>E-mail</th></tr>
+            </thead>
+            <tbody>
+            <?php
+            foreach ($users as $user)
+            {
+                echo "<tr><td>{$user['id']}</td><td>{$user['email']}</td></tr>";
+            }
+            ?>
+            </tbody>
+
+        </table>
+<p><a href="logout.php">Logout</a> </p>
+
+    </article>
+</main>
 
 
 </body>
