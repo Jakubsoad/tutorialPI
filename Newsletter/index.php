@@ -26,12 +26,27 @@ session_start();
         unset($_SESSION['emailExist']);
     }
 
+
+
     ?>
     <br><br>
     <input type="submit" value="Submit!">
-    <br><br>
+    </form>
+<br><br>
+    <form method="post" action="delete.php">
+        <input type="text" name="email" placeholder="Email to erase...">
+        <br>
+    <input type="submit" value="Delete my address e-mail from database!" >
+    </form>
+<?php
+if (isset($_SESSION['cancelledEmail']))
+{
+    echo $_SESSION['cancelledEmail'];
+    unset($_SESSION['cancelledEmail']);
+}
+?>
     <a href="admin.php">You are admin? Click here!</a>
-</form>
+
 
 </body>
 
