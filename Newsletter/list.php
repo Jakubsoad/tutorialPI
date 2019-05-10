@@ -3,6 +3,7 @@ session_start();
 require_once 'database.php';
 
 
+
 if (!isset($_SESSION['loggedID'])) {
 
     if (isset($_POST['login'])) {
@@ -21,10 +22,12 @@ if (!isset($_SESSION['loggedID'])) {
         } else {
             $_SESSION['badAttempt'] = true;
             header("Location: admin.php");
+            $_SESSION['incompleteEmail']=$login;
             exit();
         }
 
-    } else {
+    }
+    else {
         header("Location: admin.php");
         exit();
     }

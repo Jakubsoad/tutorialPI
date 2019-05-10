@@ -7,7 +7,6 @@ if (isset($_SESSION['loggedID']))
     exit();
 }
 
-
 ?>
 <!DOCTYPE html>
 <html lang="pl">
@@ -21,7 +20,14 @@ if (isset($_SESSION['loggedID']))
 
 <form method="post" action="list.php">
     <label>
-    <input type="text" name="login" placeholder="Login..."><br><br>
+    <input type="text" name="login"
+           <?php
+           if (isset($_SESSION['incompleteEmail'])) {
+               echo 'value="' . $_SESSION['incompleteEmail'] . '"';
+               unset($_SESSION['incompleteEmail']);
+           }
+           ?>
+           placeholder="Login..."><br><br>
     <input type="password" name="pwd" placeholder="Password..."><br><br>
     <input type="submit" name="submit-login"><br><br>
 

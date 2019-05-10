@@ -1,24 +1,38 @@
 <?php
 session_start();
 
+require_once 'database.php';
 
-if (isset($_POST['email']))
-{
-$email = filter_input(INPUT_POST, 'email', FILTER_VALIDATE_EMAIL);
+//   $dbEmail = $db->prepare('SELECT * FROM users WHERE email=:email');
+// $dbEmail->bindValue(':email', $email, PDO::PARAM_STR);
+//$dbEmail->execute();
 
-    if (empty($email))
+if (isset($_POST['email'])) {
+    $email = filter_input(INPUT_POST, 'email', FILTER_VALIDATE_EMAIL);
+
+    $dbEmail = $db->query("SELECT * FROM users WHERE email='$email'");
+    if (($dbEmail->rowCount()) > 0)
     {
+        $_SESSION['emailExist'] = "We have already your e-mail address in our database :)";
         header("Location: index.php");
-        $_SESSION['givenEmail']=$_POST['email'];
-        $_SESSION['wrongEmail'] = "Wrong E-mail adress";
+        exit();
     }
     else
     {
-        require_once 'database.php';
 
-        $query = $db->prepare('INSERT INTO users VALUES (NULL, :email)');
-        $query->bindValue(':email', $email, PDO::PARAM_STR);
-        $query->execute();
+
+        if (empty($email)) {
+            header("Location: index.php");
+            $_SESSION['givenEmail'] = $_POST['email'];
+            $_SESSION['wrongEmail'] = "Wrong E-mail adress";
+        } else {
+            require_once 'database.php';
+
+
+            $query = $db->prepare('INSERT INTO users VALUES (NULL, :email)');
+            $query->bindValue(':email', $email, PDO::PARAM_STR);
+            $query->execute();
+        }
     }
 }
 else
@@ -26,6 +40,7 @@ else
     header("Location: index.php");
     exit();
 }
+
 ?>
 <!DOCTYPE html>
 <html lang="pl">

@@ -16,9 +16,16 @@ session_start();
     <br><br>
 
     <?php
-    if (isset($_SESSION['wrongEmail']))
+    if (isset($_SESSION['wrongEmail'])) {
         echo $_SESSION['wrongEmail'];
         unset($_SESSION['wrongEmail']);
+    }
+    if (isset($_SESSION['emailExist']))
+    {
+        echo $_SESSION['emailExist'];
+        unset($_SESSION['emailExist']);
+    }
+
     ?>
     <br><br>
     <input type="submit" value="Submit!">
