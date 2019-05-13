@@ -13,6 +13,7 @@ if (!empty($email))
 
     $_SESSION['cancelledEmail']="Your e-mail address is erase from our database!";
 }
+
 else
 {
     echo "siemanko";
